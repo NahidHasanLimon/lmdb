@@ -1,0 +1,31 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Industry;
+use App\Models\Country;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class IndustryFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Industry::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->domainWord,
+            // 'country_id' => Country::factory(),
+            'country_id' => Country::all()->random()->id
+        ];
+    }
+}
