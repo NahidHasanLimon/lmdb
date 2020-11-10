@@ -91,9 +91,26 @@ class TagsBlogController extends Controller
      * @param  \App\Models\TagsBlog  $tagsBlog
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TagsBlog $tagsBlog)
+    public function update(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|unique:tags_blogs|between:2,30',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+        $tag =TagsBlog::where('id',$request->id)->update([
+            'name'=> $request->name
+        ]);
+        if ($tag){
+            $tag = TagsBlog::find($request->id);
+            return response()->json([
+           'tag'=>$tag
+        ],201);
+        }
+         
+
     }
 
     /**
@@ -102,8 +119,18 @@ class TagsBlogController extends Controller
      * @param  \App\Models\TagsBlog  $tagsBlog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TagsBlog $tagsBlog)
+    public function destroy(Request $request)
     {
         //
+        $tag = TagsBlog::find($request->id);
+        if (!$tag) {
+              return response()->json(
+               'ID Not Found', 400);
+        }
+         $tag->delete();
+           return response()->json([
+           'tag'=>$tag
+        ],200);
+
     }
 }

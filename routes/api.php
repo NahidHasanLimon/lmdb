@@ -57,6 +57,8 @@ Route::prefix('blog')->group(function () {
 	Route::prefix('tag')->group(function () {
 		Route::get('/', [TagsBlogController::class, 'index']);
 		Route::post('store', [TagsBlogController::class, 'store']);
+		Route::post('update', [TagsBlogController::class, 'update']);
+		Route::post('destroy', [TagsBlogController::class, 'destroy']);
 		});
 	// end of tag
 	});

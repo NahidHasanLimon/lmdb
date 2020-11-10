@@ -2224,6 +2224,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2231,12 +2245,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: ''
       },
       addModal: false,
+      editModal: false,
       isAdding: false,
-      tags: []
+      isDeleting: false,
+      isUpdating: false,
+      index: -1,
+      tags: [],
+      editData: {
+        name: ''
+      }
     };
   },
   methods: {
-    addTag: function addTag() {
+    add: function add() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -2245,14 +2266,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (_this.data.name.trim() == '') {
-                  _this.error("Tag Name is required");
+                if (!(_this.data.name.trim() == '')) {
+                  _context.next = 2;
+                  break;
                 }
 
-                _context.next = 3;
+                return _context.abrupt("return", _this.error("Tag Name is required"));
+
+              case 2:
+                _context.next = 4;
                 return _this.callApi('post', 'http://localhost:8000/api/blog/tag/store', _this.data);
 
-              case 3:
+              case 4:
                 res = _context.sent;
                 console.log(res);
 
@@ -2265,44 +2290,137 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.error(res.data);
                 }
 
-              case 6:
+              case 7:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    editModalData: function editModalData(tag, index) {
+      // this.editData=tag;
+      var obj = {
+        id: tag.id,
+        name: tag.name
+      };
+      this.editData = obj;
+      this.editModal = true;
+      this.index = index;
+    },
+    updateMethod: function updateMethod() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(_this2.editData.name.trim() == '')) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                return _context2.abrupt("return", _this2.error("Tag Name is required"));
+
+              case 2:
+                _context2.next = 4;
+                return _this2.callApi('post', 'http://localhost:8000/api/blog/tag/update', _this2.editData);
+
+              case 4:
+                res = _context2.sent;
+                console.log(res);
+
+                if (res.status == 201) {
+                  _this2.success("Update successfully!");
+
+                  _this2.editModal = false;
+                  _this2.tags[_this2.index] = res.data.tag;
+                } else {
+                  _this2.error(res.data);
+                }
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteMethod: function deleteMethod(tag, index) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this3.isDeleting = true;
+
+                if (!(tag.id == '')) {
+                  _context3.next = 3;
+                  break;
+                }
+
+                return _context3.abrupt("return", _this3.error("ID Not Found"));
+
+              case 3:
+                _context3.next = 5;
+                return _this3.callApi('post', 'http://localhost:8000/api/blog/tag/destroy', tag);
+
+              case 5:
+                res = _context3.sent;
+                _this3.isDeleting = false;
+
+                if (res.status == 200) {
+                  _this3.tags.splice(index, 1);
+
+                  _this3.success("Tag has been deleted successfully!");
+                } else {
+                  _this3.error(res.data);
+                }
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this4 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
       var res;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
-              _context2.next = 2;
-              return _this2.callApi('get', 'http://localhost:8000/api/blog/tag/');
+              _context4.next = 2;
+              return _this4.callApi('get', 'http://localhost:8000/api/blog/tag/');
 
             case 2:
-              res = _context2.sent;
+              res = _context4.sent;
 
               // console.log(res);
               if (res.status == 200) {
                 // alert(res.data);
-                _this2.tags = res.data;
+                _this4.tags = res.data;
               } else {
                 console.log(res);
               }
 
             case 4:
             case "end":
-              return _context2.stop();
+              return _context4.stop();
           }
         }
-      }, _callee2);
+      }, _callee4);
     }))();
   }
 });
@@ -85945,7 +86063,12 @@ var render = function() {
                                   "Button",
                                   {
                                     staticClass: "_btn _action_btn edit_btn1",
-                                    attrs: { type: "info" }
+                                    attrs: { type: "info" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.editModalData(tag, i)
+                                      }
+                                    }
                                   },
                                   [_vm._v("Edit")]
                                 ),
@@ -85954,7 +86077,15 @@ var render = function() {
                                   "Button",
                                   {
                                     staticClass: "_btn _action_btn make_btn1",
-                                    attrs: { type: "error" }
+                                    attrs: {
+                                      type: "error",
+                                      loading: _vm.isDeleting
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deleteMethod(tag, i)
+                                      }
+                                    }
                                   },
                                   [_vm._v("Delete")]
                                 )
@@ -86000,10 +86131,6 @@ var render = function() {
                 }
               }),
               _vm._v(" "),
-              _c("p", [_vm._v("Content of dialog")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Content of dialog")]),
-              _vm._v(" "),
               _c(
                 "div",
                 { attrs: { slot: "footer" }, slot: "footer" },
@@ -86029,9 +86156,74 @@ var render = function() {
                         disabled: _vm.isAdding,
                         loading: _vm.isAdding
                       },
-                      on: { click: _vm.addTag }
+                      on: { click: _vm.add }
                     },
                     [_vm._v(_vm._s(_vm.isAdding ? "Adding.." : "Add"))]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "Modal",
+            {
+              attrs: {
+                title: "Update Tag",
+                "mask-closable": false,
+                closable: false
+              },
+              model: {
+                value: _vm.editModal,
+                callback: function($$v) {
+                  _vm.editModal = $$v
+                },
+                expression: "editModal"
+              }
+            },
+            [
+              _c("Input", {
+                staticStyle: { width: "300px" },
+                attrs: { placeholder: "Enter A Name" },
+                model: {
+                  value: _vm.editData.name,
+                  callback: function($$v) {
+                    _vm.$set(_vm.editData, "name", $$v)
+                  },
+                  expression: "editData.name"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { attrs: { slot: "footer" }, slot: "footer" },
+                [
+                  _c(
+                    "Button",
+                    {
+                      attrs: { type: "default" },
+                      on: {
+                        click: function($event) {
+                          _vm.editModal = false
+                        }
+                      }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Button",
+                    {
+                      attrs: {
+                        type: "primary",
+                        disabled: _vm.isUpdating,
+                        loading: _vm.isUpdating
+                      },
+                      on: { click: _vm.updateMethod }
+                    },
+                    [_vm._v(_vm._s(_vm.isUpdating ? "updating.." : "Update"))]
                   )
                 ],
                 1
@@ -101838,15 +102030,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************!*\
   !*** ./resources/js/components/blog/Tags.vue ***!
   \***********************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Tags_vue_vue_type_template_id_73db05cb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Tags.vue?vue&type=template&id=73db05cb& */ "./resources/js/components/blog/Tags.vue?vue&type=template&id=73db05cb&");
 /* harmony import */ var _Tags_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Tags.vue?vue&type=script&lang=js& */ "./resources/js/components/blog/Tags.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Tags_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Tags_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -101876,7 +102067,7 @@ component.options.__file = "resources/js/components/blog/Tags.vue"
 /*!************************************************************************!*\
   !*** ./resources/js/components/blog/Tags.vue?vue&type=script&lang=js& ***!
   \************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
