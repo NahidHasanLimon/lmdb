@@ -61,6 +61,16 @@ Route::prefix('blog')->group(function () {
 		Route::post('destroy', [TagsBlogController::class, 'destroy']);
 		});
 	// end of tag
+	// start of tag
+	Route::prefix('category')->group(function () {
+		Route::get('/', [CategoriesBlogController::class, 'index']);
+		Route::post('store', [CategoriesBlogController::class, 'store']);
+		Route::post('icon/upload', [CategoriesBlogController::class, 'uploadIcon']);
+		Route::post('icon/delete', [CategoriesBlogController::class, 'deleteIcon']);
+		Route::post('update', [CategoriesBlogController::class, 'update']);
+		Route::post('destroy', [CategoriesBlogController::class, 'destroy']);
+		});
+	// end of tag
 	});
 // end of Blog
 });

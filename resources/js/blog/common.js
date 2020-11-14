@@ -13,7 +13,8 @@ export default {
 				  data: dataObj
 				});
 			}catch(e){
-				return e.response;			
+				return e.response;	
+				  // return res.status(500).send(e);		
 			}
 		},
 		 info (title="Hey.",desc) {

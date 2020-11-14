@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class CategoriesBlog extends Model
 {
     use HasFactory;
+     protected $fillable = ['name','icon'];
 }

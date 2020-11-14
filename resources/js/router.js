@@ -10,6 +10,7 @@ import Hooks from './components/Hooks'
 
 import home from './components/blog/Home'
 import tags from './components/blog/Tags'
+import categories from './components/blog/Categories'
 
 
 
@@ -23,6 +24,9 @@ const routes= [
 	{
 		path: '/tags',
 		component: tags
+	},{
+		path: '/categories',
+		component: categories
 	},
 
 
