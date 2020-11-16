@@ -12,12 +12,17 @@ import home from './components/blog/Home'
 import tags from './components/blog/Tags'
 import categories from './components/blog/Categories'
 
-
+// practice vuex
+import controllComponent from './vuexPractice/ControllComp'
+// practice vuex
 
 const routes= [
 	 
 	// project routes
 	{
+		path: '/testvuex',
+		component: controllComponent
+	},{
 		path: '/',
 		component: home
 	},

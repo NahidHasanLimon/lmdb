@@ -9,6 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import router from './router'
+import store from './store'
 import ViewUI from 'view-design'
 import 'view-design/dist/styles/iview.css'
 Vue.use(ViewUI);
@@ -38,5 +39,6 @@ Vue.component('main-component', require('./components/MainComponent.vue').defaul
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    store
 });
